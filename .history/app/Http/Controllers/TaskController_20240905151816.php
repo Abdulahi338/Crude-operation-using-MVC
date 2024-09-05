@@ -77,15 +77,10 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('error', 'Task not found.');
     }
 
-    
+    // Show a list of trashed tasks.
     public function trashed()
     {
         $tasks = Task::onlyTrashed()->get();
         return view('tasks.trashed', compact('tasks'));
-    }
-    public function restoreAll()
-    {
-        Task::onlyTrashed()->restore(); // Restore all trashed tasks
-        return redirect()->route('tasks.trashed')->with('success', 'All trashed tasks have been restored.');
     }
 }

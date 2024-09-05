@@ -7,3 +7,4 @@ Route::post('/tasks/{task}/restore', [TaskController::class, 'restore'])->name('
 Route::get('/tasks.trashed', [TaskController::class, 'trashed'])->name('tasks.trashed');
 Route::post('/tasks/restore-all', [TaskController::class, 'restoreAll'])->name('tasks.restore.all');
 
+git 

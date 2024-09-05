@@ -10,12 +10,6 @@
     <div class="container mt-4">
         <a href="{{ route('tasks.index') }}" class="btn btn-primary mb-3">Back to Tasks</a>
 
-        <!-- Restore All Button -->
-        <form action="{{ route('tasks.restore.all') }}" method="POST" class="mb-3">
-            @csrf
-            <button type="submit" class="btn btn-primary">Restore All</button>
-        </form>
-
         <h2>Trashed Tasks</h2>
         <table class="table table-bordered">
             <thead>

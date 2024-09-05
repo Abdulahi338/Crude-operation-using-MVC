@@ -83,9 +83,4 @@ class TaskController extends Controller
         $tasks = Task::onlyTrashed()->get();
         return view('tasks.trashed', compact('tasks'));
     }
-    public function restoreAll()
-    {
-        Task::onlyTrashed()->restore(); // Restore all trashed tasks
-        return redirect()->route('tasks.trashed')->with('success', 'All trashed tasks have been restored.');
-    }
 }

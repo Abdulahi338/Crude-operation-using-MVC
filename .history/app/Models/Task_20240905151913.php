@@ -10,6 +10,7 @@ class Task extends Model
 {
     use HasFactory, SoftDeletes; 
 
+    // Attributes that can be mass-assigned
     protected $fillable = [
         'title',
         'description',
