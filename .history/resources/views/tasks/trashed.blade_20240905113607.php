@@ -3,25 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasks</title>
+    <title>Trashed Tasks</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container mt-4">
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @elseif (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
+        <a href="{{ route('tasks.index') }}" class="btn btn-primary mb-3">Back to Tasks</a>
 
-        <a href="{{ route('tasks.create') }}" class="btn btn-primary mb-3">Create New Task</a>
-        <a href="{{ route('tasks.trashed') }}" class="btn btn-secondary mb-3">View Trashed Tasks</a>
-
-        <h2>Tasks</h2>
+        <h2>Trashed Tasks</h2>
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -38,12 +27,9 @@
                         <td>{{ $task->description }}</td>
                         <td>{{ $task->completed ? 'Yes' : 'No' }}</td>
                         <td>
-                            <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-warning">Edit</a>
-
-                            <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" style="display:inline;">
+                            <form action="{{ route('tasks.restore', $task->id) }}" method="POST" style="display:inline;">
                                 @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                <button type="submit" class="btn btn-success">Restore</button>
                             </form>
                         </td>
                     </tr>

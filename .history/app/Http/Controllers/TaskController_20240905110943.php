@@ -7,21 +7,17 @@ use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    // Display a listing of the tasks.
     public function index()
     {
-        // Fetch only non-deleted tasks
-        $tasks = Task::whereNull('deleted_at')->get();
+        $tasks = Task::withTrashed()->get(); // Retrieve all tasks including soft-deleted
         return view('tasks.index', compact('tasks'));
     }
 
-    // Show the form for creating a new task.
     public function create()
     {
         return view('tasks.create');
     }
 
-    // Store a newly created task in storage.
     public function store(Request $request)
     {
         $request->validate([
@@ -30,22 +26,14 @@ class TaskController extends Controller
         ]);
 
         Task::create($request->all());
-        return redirect()->route('tasks.index')->with('success', 'Task created successfully.');
+        return redirect()->route('tasks.index');
     }
 
-    // Display the specified task.
-    public function show(Task $task)
-    {
-        return view('tasks.show', compact('task'));
-    }
-
-    // Show the form for editing the specified task.
     public function edit(Task $task)
     {
         return view('tasks.edit', compact('task'));
     }
 
-    // Update the specified task in storage.
     public function update(Request $request, Task $task)
     {
         $request->validate([
@@ -54,17 +42,15 @@ class TaskController extends Controller
         ]);
 
         $task->update($request->all());
-        return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
+        return redirect()->route('tasks.index');
     }
 
-    // Remove the specified task from storage.
     public function destroy(Task $task)
     {
-        $task->delete(); // Soft delete
-        return redirect()->route('tasks.index')->with('success', 'Task deleted successfully.');
+        $task->delete(); // Soft delete the task
+        return redirect()->route('tasks.index');
     }
 
-    // Restore a soft-deleted task.
     public function restore($id)
     {
         $task = Task::onlyTrashed()->find($id);
@@ -75,12 +61,5 @@ class TaskController extends Controller
         }
 
         return redirect()->route('tasks.index')->with('error', 'Task not found.');
-    }
-
-    // Show a list of trashed tasks.
-    public function trashed()
-    {
-        $tasks = Task::onlyTrashed()->get();
-        return view('tasks.trashed', compact('tasks'));
     }
 }

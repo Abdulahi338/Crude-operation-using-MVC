@@ -19,7 +19,6 @@
         @endif
 
         <a href="{{ route('tasks.create') }}" class="btn btn-primary mb-3">Create New Task</a>
-        <a href="{{ route('tasks.trashed') }}" class="btn btn-secondary mb-3">View Trashed Tasks</a>
 
         <h2>Tasks</h2>
         <table class="table table-bordered">
@@ -38,13 +37,20 @@
                         <td>{{ $task->description }}</td>
                         <td>{{ $task->completed ? 'Yes' : 'No' }}</td>
                         <td>
-                            <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-warning">Edit</a>
+                            @if($task->deleted_at)
+                                <form action="{{ route('tasks.restore', $task->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="btn btn-success">Restore</button>
+                                </form>
+                            @else
+                                <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-warning">Edit</a>
 
-                            <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
+                                <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
