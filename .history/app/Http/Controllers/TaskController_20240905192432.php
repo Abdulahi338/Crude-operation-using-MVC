@@ -67,7 +67,7 @@ class TaskController extends Controller
     // Restore a soft-deleted task.
     public function restore($id)
     {
-        $task = Task::onlyTrashed()->findOrFail($id);
+        $task = Task::onlyTrashed()->findOr($id);
 
         if ($task) {
             $task->restore();
